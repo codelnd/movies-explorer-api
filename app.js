@@ -1,7 +1,7 @@
 const express = require('express');
 const { mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
-const usersRouter = require('./routes/users');
+const router = require('./routes/index');
 
 mongoose.connect('mongodb://localhost:27017/moviesdb', {
   useNewUrlParser: true,
@@ -15,12 +15,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/users', usersRouter);
+app.use(router);
 
 app.get('/', (req, res) => {
   res.status(404).send('<h1>Страница не найдена</h1>');
 });
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`)
-})
+  console.log(`App listening on port ${PORT}`);
+});

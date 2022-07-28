@@ -1,8 +1,8 @@
 const moviesRouter = require('express').Router();
-const {getMovies} = require('../controllers/movies')
+const { getMovies, createMovie, deleteMovie } = require('../controllers/movies');
 
-moviesRouter.get('/movies', getMovies);
-moviesRouter.post('/movies', createMovies);
-moviesRouter.delete('/movies/:_id', deleteMovies);
+moviesRouter.get('/', getMovies);
+moviesRouter.post('/', createMovie);
+moviesRouter.delete('/:_id', deleteMovie);
 
 module.exports = moviesRouter;
