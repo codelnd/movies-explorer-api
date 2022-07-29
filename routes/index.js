@@ -1,12 +1,17 @@
 const router = require('express').Router();
-const usersRouter = require('./users');
-const { register, login, logout } = require('../controllers/users');
 const { auth } = require('../middlewares/auth');
+const usersRouter = require('./users');
+const moviesRouter = require('./movies');
+const { register, login, logout } = require('../controllers/users');
+const { notFoundPage } = require('../middlewares/errors');
+const { registerJoiValidation, loginJoiValidation } = require('../middlewares/joiValidation');
 
-router.post('/signup', register);
-router.post('/signin', login);
-router.post('/signout', auth, logout);
+router.post('/signup', registerJoiValidation, register);
+router.post('/signin', loginJoiValidation, login);
 
 router.use('/users', auth, usersRouter);
+router.use('/movies', auth, moviesRouter);
+router.post('/signout', auth, logout);
+router.use('*', auth, notFoundPage);
 
 module.exports = router;

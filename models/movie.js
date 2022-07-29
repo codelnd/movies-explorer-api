@@ -1,6 +1,5 @@
 const { mongoose } = require('mongoose');
-const validator = require('validator');
-const {regExpLink} = require('../utils/regexp')
+const { regExpLink } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -12,7 +11,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   duration: {
-    type: String,
+    type: Number,
     required: true,
   },
   year: {
@@ -49,7 +48,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   nameRU: {
