@@ -3,7 +3,7 @@ const { auth } = require('../middlewares/auth');
 const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 const { register, login, logout } = require('../controllers/users');
-const { notFoundPage } = require('../middlewares/errors');
+const { notFoundPage } = require('../errors/errors');
 const { registerJoiValidation, loginJoiValidation } = require('../middlewares/joiValidation');
 
 router.post('/signup', registerJoiValidation, register);

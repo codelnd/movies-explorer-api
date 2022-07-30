@@ -1,4 +1,4 @@
-const NotFoundError = require('../errors/NotFoundError');
+const NotFoundError = require('./NotFoundError');
 
 module.exports.serverError = (err, req, res, next) => {
   const { statusCode = 500, message } = err;

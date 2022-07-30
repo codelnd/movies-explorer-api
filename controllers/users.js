@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-const { SALT_ROUNDS, DEV_KEY } = require('../utils/constants');
+const { SALT_ROUNDS, DEV_KEY } = require('../utils/config');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
@@ -67,13 +67,17 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : DEV_KEY, { expiresIn: '7d' });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : DEV_KEY,
+        { expiresIn: '7d' },
+      );
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: true,
       });
-      res.status(200).send({
+      res.send({
         name: user.name,
         email: user.email,
         _id: user._id,
