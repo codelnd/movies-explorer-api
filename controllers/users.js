@@ -2,9 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-const { SALT_ROUNDS, DEV_KEY } = require('../utils/config');
-const BadRequestError = require('../errors/BadRequestError');
+const { NODE_ENV, JWT_SECRET, SALT_ROUNDS } = process.env;
+const { DEV_KEY } = require('../utils/config');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 
@@ -24,13 +23,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate({ owner }, { name, email }, { new: true, runValidators: true })
     .orFail(() => new NotFoundError())
     .then((updateUser) => res.send(updateUser))
-    .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new BadRequestError());
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 module.exports.register = (req, res, next) => {
@@ -51,13 +44,7 @@ module.exports.register = (req, res, next) => {
           email: user.email,
           _id: user._id.toString(),
         }))
-        .catch((err) => {
-          if (err.name === 'ValidationError') {
-            next(new BadRequestError());
-          } else {
-            next(err);
-          }
-        });
+        .catch(next);
     })
     .catch(next);
 };
