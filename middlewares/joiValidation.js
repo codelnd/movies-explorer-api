@@ -1,17 +1,25 @@
 const { celebrate, Joi } = require('celebrate');
-const { regExpLink } = require('../utils/constants');
+const validator = require('validator');
+
+const urlValidation = Joi.string().required().custom((value, helpers) => {
+  if (!validator.isURL(value)) {
+    helpers.message({ message: 'Переданы некорректные данные.' });
+  } else {
+    return value;
+  }
+});
 
 module.exports.registerJoiValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().regex(regExpLink),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
 
 module.exports.loginJoiValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().regex(regExpLink),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
@@ -19,7 +27,7 @@ module.exports.loginJoiValidation = celebrate({
 module.exports.updateUserJoiValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().regex(regExpLink),
+    email: Joi.string().required().email(),
   }),
 });
 
@@ -30,9 +38,9 @@ module.exports.createMovieJoiValidation = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().regex(regExpLink),
-    trailerLink: Joi.string().required().regex(regExpLink),
-    thumbnail: Joi.string().required().regex(regExpLink),
+    image: urlValidation,
+    trailerLink: urlValidation,
+    thumbnail: urlValidation,
     owner: Joi.string().hex().length(24),
     movieId: Joi.string().required(),
     nameRU: Joi.string().required(),
