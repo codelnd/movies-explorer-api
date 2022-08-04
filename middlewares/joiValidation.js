@@ -2,10 +2,10 @@ const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
 const urlValidation = Joi.string().required().custom((value, helpers) => {
-  if (!validator.isURL(value)) {
-    return helpers.message({ message: 'Переданы некорректные данные.' });
+  if (validator.isURL(value)) {
+    return value;
   }
-  return value;
+  return helpers.message('Переданы некорректные данные.');
 });
 
 module.exports.registerJoiValidation = celebrate({
@@ -41,7 +41,7 @@ module.exports.createMovieJoiValidation = celebrate({
     trailerLink: urlValidation,
     thumbnail: urlValidation,
     owner: Joi.string().hex().length(24),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -49,6 +49,6 @@ module.exports.createMovieJoiValidation = celebrate({
 
 module.exports.deleteMovieJoiValidation = celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().required().hex().length(24),
+    id: Joi.string().required().hex().length(24),
   }),
 });

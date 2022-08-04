@@ -6,14 +6,15 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 
+const { NODE_ENV, PROD_MONGO_URL } = process.env;
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { handleErrors } = require('./errors/errors');
 const joiErrors = require('./errors/JoiErrors');
 const rateLimiter = require('./utils/rateLimiter');
-const { allowedCors } = require('./utils/config');
+const { allowedCors, DEV_MONGO_URL } = require('./utils/config');
 
-mongoose.connect('mongodb://localhost:27017/moviesdb', {
+mongoose.connect(NODE_ENV === 'production' ? PROD_MONGO_URL : DEV_MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   family: 4,

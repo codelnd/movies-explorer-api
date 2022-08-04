@@ -4,7 +4,6 @@ const { User } = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const { DEV_KEY } = require('../utils/config');
-const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.getUser = (req, res, next) => {
@@ -26,23 +25,15 @@ module.exports.updateUser = (req, res, next) => {
 module.exports.register = (req, res, next) => {
   const { name, email, password } = req.body;
 
-  User.findOne({ email })
-    .then((sameEmail) => {
-      if (sameEmail) {
-        throw new ConflictError();
-      }
-
-      bcrypt.hash(password, 7)
-        .then((hash) => User.create({
-          name, email, password: hash,
-        }))
-        .then((user) => res.status(201).send({
-          name: user.name,
-          email: user.email,
-          _id: user._id.toString(),
-        }))
-        .catch(next);
-    })
+  bcrypt.hash(password, 7)
+    .then((hash) => User.create({
+      name, email, password: hash,
+    }))
+    .then((user) => res.status(201).send({
+      name: user.name,
+      email: user.email,
+      _id: user._id.toString(),
+    }))
     .catch(next);
 };
 
@@ -71,9 +62,7 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.logout = (req, res, next) => {
-  const { email } = req.body;
-
-  User.findOne({ email })
+  User.findOne(req.body)
     .then(() => {
       res.clearCookie('jwt', {
         httpOnly: true,
