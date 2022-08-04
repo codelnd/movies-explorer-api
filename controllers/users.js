@@ -8,9 +8,7 @@ const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.getUser = (req, res, next) => {
-  const owner = req.user._id;
-
-  User.findById({ owner })
+  User.findById(req.user._id)
     .orFail(() => new NotFoundError())
     .then((user) => res.send(user))
     .catch(next);
@@ -18,9 +16,8 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
-  const owner = req.user._id;
 
-  User.findByIdAndUpdate({ owner }, { name, email }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail(() => new NotFoundError())
     .then((updateUser) => res.send(updateUser))
     .catch(next);

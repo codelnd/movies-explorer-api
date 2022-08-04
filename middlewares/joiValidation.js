@@ -3,10 +3,9 @@ const validator = require('validator');
 
 const urlValidation = Joi.string().required().custom((value, helpers) => {
   if (!validator.isURL(value)) {
-    helpers.message({ message: 'Переданы некорректные данные.' });
-  } else {
-    return value;
+    return helpers.message({ message: 'Переданы некорректные данные.' });
   }
+  return value;
 });
 
 module.exports.registerJoiValidation = celebrate({
