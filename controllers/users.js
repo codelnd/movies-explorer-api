@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET, SALT_ROUNDS } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 const { DEV_KEY } = require('../utils/config');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
@@ -32,7 +32,7 @@ module.exports.register = (req, res, next) => {
         throw new ConflictError();
       }
 
-      bcrypt.hash(password, SALT_ROUNDS)
+      bcrypt.hash(password, 7)
         .then((hash) => User.create({
           name, email, password: hash,
         }))
