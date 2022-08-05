@@ -5,6 +5,7 @@ const { User } = require('../models/user');
 const { NODE_ENV, JWT_SECRET } = process.env;
 const { DEV_KEY } = require('../utils/config');
 const NotFoundError = require('../errors/NotFoundError');
+const { CREATE } = require('../utils/constants');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -29,7 +30,7 @@ module.exports.register = (req, res, next) => {
     .then((hash) => User.create({
       name, email, password: hash,
     }))
-    .then((user) => res.status(201).send({
+    .then((user) => res.status(CREATE).send({
       name: user.name,
       email: user.email,
       _id: user._id.toString(),
