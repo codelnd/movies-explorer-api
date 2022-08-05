@@ -5,8 +5,6 @@ const { User } = require('../models/user');
 const { NODE_ENV, JWT_SECRET } = process.env;
 const { DEV_KEY } = require('../utils/config');
 const NotFoundError = require('../errors/NotFoundError');
-const BadRequestError = require('../errors/BadRequestError');
-const ConflictError = require('../errors/ConflictError');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -36,15 +34,6 @@ module.exports.register = (req, res, next) => {
       email: user.email,
       _id: user._id.toString(),
     }))
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        throw new BadRequestError();
-      }
-      if (err.code === 11000) {
-        throw new ConflictError();
-      }
-      return next(err);
-    })
     .catch(next);
 };
 
