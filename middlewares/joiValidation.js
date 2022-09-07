@@ -50,6 +50,6 @@ module.exports.createMovieJoiValidation = celebrate({
 
 module.exports.deleteMovieJoiValidation = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().required().hex().length(24),
+    _id: Joi.string().required().hex().length(24),
   }),
 });
