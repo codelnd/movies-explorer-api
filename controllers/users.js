@@ -25,7 +25,6 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.register = (req, res, next) => {
   const { name, email, password } = req.body;
-
   bcrypt.hash(password, 7)
     .then((hash) => User.create({
       name, email, password: hash,

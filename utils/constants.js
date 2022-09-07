@@ -5,7 +5,6 @@ module.exports.FORBIDDEN = 403;
 module.exports.NOT_FOUND = 404;
 module.exports.CONFLICT = 409;
 module.exports.SERVER_ERR = 500;
-
 module.exports.badRequest = 'Переданы некорректные данные.';
 module.exports.unauthorized = 'Необходимо авторизироваться.';
 module.exports.forbidden = 'Недостаточно прав для этого действия.';
