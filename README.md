@@ -1,6 +1,4 @@
-<h1 align="center">
-    API Movies Explorer
-</h1>
+# API Movies Explorer
 
 ***
 
