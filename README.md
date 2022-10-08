@@ -1,16 +1,78 @@
-# API для проекта MoviesExplorer
+<h1 align="center">
+    API Movies Explorer
+</h1>
 
-## Описание:
-Проект написан с использованием фреймворка Express.js и базы данных MongoDB.
+***
+
+## Бэкенд для сервиса Movies Explorer - дипломного проекта по профессии веб-разработчик курса [Яндекс.Практикум](https://praktikum.yandex.ru 'Яндекс Практикум').
+В проекте задействованы две сущности: пользователи и новостные статьи. Схемы и модели созданы через Mongoose с валидируемыми полями. Все роуты, кроме логина и логаута, защищены мидлвэрей auth, которая проверяет Authorization и наличие в нем токена в приходящих запросах. Обращение к API происходит через роуты с валидацией запросов через Joi и celebrate. В контроллерах описана логика обработки запросов. Контроллер логина создает JWT токен сроком на неделю. В контроллере регистрации пользователя пароль хешеруется модулем bcryptjs. В проекте реализована централизованная обработка ошибок через конструкторы ошибок - конструкторы передаются в блоках catch через функцию next и далее в мидлвэр обработки ошибок errorHandler в app.js. Для логгирования запросов и ошибок используется библиотека Winston. Для разворачивания сервера используется облачный сервис Яндекс.Облако.
+
+Сервер доступен по адресу - https://api.findmovies.nomoredomains.xyz
+
+## Документация к API:
+#### `POST /users/signup`
+cоздаёт пользователя с переданными в теле `email, password и name`
+
+#### `POST /users/signin`
+проверяет переданные в теле `email и password` и возвращает `JWT token`
+
+#### `GET /users/me`
+возвращает информацию о пользователе, его `email и name` (роут защищен авторизацией)
+
+#### `GET /movies`
+возвращает все сохранённые пользователем фильмы (роут защищен авторизацией)
+
+#### `POST /movies`
+создаёт фильм с переданными в теле `country,
+director,
+duration,
+year,
+description,
+image,
+trailerLink,
+thumbnail,
+owner,
+movieId,
+nameRU,
+nameEN` (роут защищен авторизацией)
+
+#### `DELETE /movies/movieId`
+удаляет сохранённый фильм по `id` (роут защищен авторизацией)
+
 
 ## Стек технологий:
-<img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" /> <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" /> <img alt="express.js" src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" /><img alt="JavaScript" src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" />
+![JavaScript](https://img.shields.io/badge/-JavaScript-000?style=for-the-badge&logo=javascript)
+![NodeJS](https://img.shields.io/badge/-node.js-000?style=for-the-badge&logo=node.js)
+![ExpressJS](https://img.shields.io/badge/-express.js-000?style=for-the-badge&logo=express)
+![MongoDB](https://img.shields.io/badge/-MongoDB-000?style=for-the-badge&logo=mongodb)
+![NGINX](https://img.shields.io/badge/-nginx-000?style=for-the-badge&logo=nginx)
+![PM2](https://img.shields.io/badge/-pm2-000?style=for-the-badge&logo=pm2)
+![ESLint](https://img.shields.io/badge/-eslint-000?style=for-the-badge&logo=eslint)
 
+## Как запустить:
+Клонировать репозиторий и установить зависимости.
+```
+git clone https://github.com/codelnd/movies-explorer-api.git
+cd movies-explorer-api
+npm install
+```
+
+
+## Планы по доработке:
+- Переписать запросы на Async/Await
+
+
+## CLI:
+```
+npm run start // Запуск dev сервера
+npm run dev // Запуск dev сервера с hot reload
+npm run lint // Запуск ESLint
+```
 
 ## Ссылки
-`Публичный IP адрес:` **51.250.107.85**
+API: *https://api.findmovies.nomoredomains.xyz*
 
-`API:` **https://api.findmovies.nomoredomains.xyz**
+Публичный IP адрес: `51.250.107.85`
 
 
 
