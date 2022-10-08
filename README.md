@@ -67,9 +67,13 @@ npm run lint // Запуск ESLint
 ```
 
 ## Ссылки
-API: *https://api.findmovies.nomoredomains.xyz*
+[Ссылка на Pull Request](https://github.com/Denis3094/movies-explorer-frontend/pull/1)
 
 Публичный IP адрес: `51.250.107.85`
+
+API: *https://api.findmovies.nomoredomains.xyz*
+
+
 
 
 
